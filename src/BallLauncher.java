@@ -9,6 +9,10 @@ public class BallLauncher extends GraphicsProgram{
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int PROGRAM_WIDTH = 800;
 	public static final int SIZE = 25;
+	public static final int ms =50;
+	public static final int speed = 2;
+	private ArrayList<GOval> balls;
+	private Timer timer;
 	
 	public void init() {
 		setSize(PROGRAM_WIDTH, PROGRAM_HEIGHT);
@@ -16,12 +20,18 @@ public class BallLauncher extends GraphicsProgram{
 	}
 	
 	public void run() {
+		balls = new ArrayList<>();
 		addMouseListeners();
+		
+		timer = new Timer(ms,e -> actionPerformed());
+        timer.start();
+		
 	}
 	
 	public void mousePressed(MouseEvent e) {
 		GOval ball = makeBall(SIZE/2, e.getY());
 		add(ball);
+		balls.add(ball);
 	}
 	
 	public GOval makeBall(double x, double y) {
@@ -30,7 +40,11 @@ public class BallLauncher extends GraphicsProgram{
 		temp.setFilled(true);
 		return temp;
 	}
-	
+	private void actionPerformed() {
+        for (GOval ball : balls) {
+            ball.move(speed, 0); // Move each ball to the right
+        }
+    }
 	public static void main(String[] args) {
 		new BallLauncher().start();
 	}

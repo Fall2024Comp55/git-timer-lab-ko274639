@@ -46,9 +46,14 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		numTimes++;
 		moveAllBallsOnce();
+		moveAllEnemiesOnce();
 		if(numTimes % 40 == 0) {
 		    addAnEnemy();
 		}
+		
+		if (numTimes % 40 == 0) {
+	        addAnEnemy();
+	    }
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -77,6 +82,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		GRect e = makeEnemy(rgen.nextInt(0, WINDOW_HEIGHT-SIZE/2));
 		enemies.add(e);
 		text.setLabel("" + enemies.size());
+		rgen.nextInt();
 		add(e);
 	}
 	
@@ -85,6 +91,12 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		temp.setColor(Color.GREEN);
 		temp.setFilled(true);
 		return temp;
+	}
+	private void moveAllEnemiesOnce( ) {
+		for(GRect enemy : enemies) {
+			int randomY = rgen.nextInt(-SPEED, SPEED); // Random movement between -SPEED and SPEED
+	        enemy.move(0, randomY);
+		}
 	}
 
 	private void moveAllBallsOnce() {

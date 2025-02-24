@@ -11,6 +11,7 @@ public class BallLauncher extends GraphicsProgram{
 	public static final int SIZE = 25;
 	public static final int ms =50;
 	public static final int speed = 2;
+    public static final int LIMIT_X = 100; // Cooldown limit for ball spawning
 	private ArrayList<GOval> balls;
 	private Timer timer;
 	
@@ -29,6 +30,14 @@ public class BallLauncher extends GraphicsProgram{
 	}
 	
 	public void mousePressed(MouseEvent e) {
+		
+		
+		for (GOval ball : balls) {
+            if (ball.getX() < LIMIT_X) {
+                return; // Ignore this mouse press
+            }
+		}
+		
 		GOval ball = makeBall(SIZE/2, e.getY());
 		add(ball);
 		balls.add(ball);

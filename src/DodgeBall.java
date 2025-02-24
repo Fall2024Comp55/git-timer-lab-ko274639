@@ -100,8 +100,22 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	}
 
 	private void moveAllBallsOnce() {
+	    ArrayList<GRect> toRemove = new ArrayList<>(); // Store enemies to remove
+
 		for(GOval ball:balls) {
-			ball.move(SPEED, 0);
+			//ball.move(SPEED, 0);
+			 double nextX = ball.getX() + ball.getWidth() + 1; // The red point in your image
+		        double midY = ball.getY() + ball.getHeight() / 2;
+
+		        GObject obj = getElementAt(nextX, midY);
+		        
+		        if (obj instanceof GRect) { // If it's an enemy
+		            remove(obj); // Remove from screen
+		            enemies.remove(obj); // Remove from the list
+		        } else {
+		            ball.move(SPEED, 0); // Move ball forward if no collision
+		        }
+		    
 		}
 	}
 	
